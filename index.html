@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alex Morgan | Data Scientist</title>
+<meta name="description" content="Portfolio of Alex Morgan, a data scientist building forecasting, NLP and experimentation systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface-2: #1c232d;
+    --border: #2a323d;
+    --text: #d7dde5;
+    --muted: #8b95a3;
+    --accent: #4fd1a5;
+    --accent-dim: rgba(79, 209, 165, 0.12);
+    --nav-h: 64px;
+    --font: "Courier Prime", "Courier New", Courier, monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  /* ---------- Navigation ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--nav-h);
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { font-weight: 700; letter-spacing: 0.02em; }
+  .brand span { color: var(--accent); }
+
+  .menu { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .menu > li { position: relative; }
+  .menu-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    color: var(--muted);
+    font: inherit;
+    font-size: 15px;
+    cursor: pointer;
+    transition: color .2s, background .2s;
+  }
+  .menu-link:hover, .has-dropdown.open > .menu-link { color: var(--text); background: var(--surface); }
+  .menu-link.active { color: var(--accent); }
+  .caret { width: 10px; height: 10px; transition: transform .2s; }
+  .has-dropdown.open .caret, .has-dropdown:hover .caret { transform: rotate(180deg); }
+
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 260px;
+    margin: 0;
+    padding: 8px;
+    list-style: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity .18s, transform .18s, visibility .18s;
+  }
+  /* invisible bridge so hover isn't lost crossing the gap */
+  .dropdown::before { content: ""; position: absolute; top: -10px; left: 0; right: 0; height: 10px; }
+  .has-dropdown:hover > .dropdown,
+  .has-dropdown.open > .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    color: var(--text);
+    transition: background .15s, color .15s;
+  }
+  .dropdown a small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.4; }
+  .dropdown a:hover, .dropdown a:focus-visible { background: var(--accent-dim); color: var(--accent); }
+
+  .burger {
+    display: none;
+    width: 42px; height: 42px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  .burger svg { width: 20px; height: 20px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 120px 24px 110px;
+  }
+  .eyebrow { color: var(--accent); font-size: 15px; margin: 0 0 18px; }
+  .hero h1 {
+    margin: 0 0 24px;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 0.9em;
+    margin-left: 6px;
+    background: var(--accent);
+    vertical-align: -0.08em;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .lead { max-width: 640px; color: var(--muted); font-size: 1.1rem; margin: 0 0 36px; }
+  .lead strong { color: var(--text); font-weight: 700; }
+
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    font-size: 15px;
+    transition: background .2s, color .2s;
+  }
+  .btn.primary { background: var(--accent); color: #07140f; font-weight: 700; }
+  .btn.primary:hover { background: #6fe0ba; }
+  .btn.ghost { color: var(--accent); }
+  .btn.ghost:hover { background: var(--accent-dim); }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 72px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .stat b { display: block; font-size: 1.9rem; color: var(--text); }
+  .stat span { color: var(--muted); font-size: 14px; }
+
+  /* ---------- About ---------- */
+  .about {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 70px 24px 100px;
+  }
+  .about h2 { font-size: 1.5rem; margin: 0 0 20px; }
+  .about h2::before { content: "// "; color: var(--accent); }
+  .about p { max-width: 680px; color: var(--muted); margin: 0 0 16px; }
+  .skills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; padding: 0; list-style: none; }
+  .skills li {
+    padding: 6px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .footer-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-inner h3 { margin: 0 0 4px; font-size: 1.2rem; }
+  .footer-inner p { margin: 0; color: var(--muted); font-size: 15px; }
+  .socials { display: flex; gap: 12px; }
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-2);
+    font-size: 15px;
+    transition: border-color .2s, color .2s;
+  }
+  .socials a:hover { border-color: var(--accent); color: var(--accent); }
+  .socials svg { width: 18px; height: 18px; fill: currentColor; }
+  .copy { text-align: center; color: var(--muted); font-size: 13px; padding: 18px 24px 26px; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 720px) {
+    body { font-size: 16px; }
+    .burger { display: inline-flex; }
+    .menu {
+      position: absolute;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2px;
+      padding: 12px 16px 16px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: none;
+    }
+    .menu.open { display: flex; }
+    .menu-link { width: 100%; justify-content: space-between; padding: 14px; }
+    .dropdown {
+      position: static;
+      min-width: 0;
+      margin: 2px 0 6px 8px;
+      box-shadow: none;
+      background: var(--surface);
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      display: none;
+    }
+    .dropdown::before { display: none; }
+    .has-dropdown:hover > .dropdown { display: none; }
+    .has-dropdown.open > .dropdown { display: block; }
+    .hero { padding: 72px 20px 70px; }
+    .stats { grid-template-columns: 1fr; margin-top: 48px; }
+    .about { padding: 50px 20px 70px; }
+    .footer-inner { padding: 40px 20px; flex-direction: column; align-items: flex-start; }
+    .socials { flex-wrap: wrap; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .cursor { animation: none; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <nav class="nav-inner" aria-label="Main navigation">
+    <a href="#home" class="brand">alex<span>.</span>morgan</a>
+
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+
+    <ul class="menu" id="menu">
+      <li><a class="menu-link active" href="#home">Home</a></li>
+
+      <li class="has-dropdown" id="projects">
+        <button class="menu-link" id="projects-btn" aria-haspopup="true" aria-expanded="false" aria-controls="projects-list">
+          Projects
+          <svg class="caret" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 3.5 5 7l3.5-3.5"/></svg>
+        </button>
+        <ul class="dropdown" id="projects-list">
+          <li><a href="projects/churn-prediction.html">Churn Prediction<small>Gradient boosting, SHAP explainability</small></a></li>
+          <li><a href="projects/demand-forecasting.html">Demand Forecasting<small>Hierarchical time series at scale</small></a></li>
+          <li><a href="projects/nlp-sentiment.html">NLP Sentiment Engine<small>Transformer fine-tuning for reviews</small></a></li>
+          <li><a href="projects/ab-testing.html">A/B Testing Framework<small>Bayesian experimentation toolkit</small></a></li>
+        </ul>
+      </li>
+
+      <li><a class="menu-link" href="#about">About</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <p class="eyebrow">&gt; hello, world. i'm Alex Morgan</p>
+    <h1>I turn messy data into decisions that move numbers.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lead">
+      Data scientist with <strong>6+ years</strong> building forecasting, NLP and experimentation systems.
+      I care about models that ship, metrics that matter, and explanations a stakeholder can actually follow.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="projects/churn-prediction.html">View projects</a>
+      <a class="btn ghost" href="#contact">Get in touch</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>25+</b><span>models in production</span></div>
+      <div class="stat"><b>$4.2M</b><span>annual savings delivered</span></div>
+      <div class="stat"><b>12</b><span>experiments shipped per quarter</span></div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <h2>About</h2>
+    <p>
+      I started in applied statistics and moved into machine learning because I like problems where the answer
+      isn't obvious. Today I work across the full lifecycle: framing the question, wrangling the data,
+      modelling, deployment and monitoring.
+    </p>
+    <p>
+      Outside of work I write about causal inference, mentor early-career analysts, and run slow, muddy trail miles.
+    </p>
+    <ul class="skills" aria-label="Core skills">
+      <li>Python</li>
+      <li>SQL</li>
+      <li>PyTorch</li>
+      <li>scikit-learn</li>
+      <li>Spark</li>
+      <li>dbt</li>
+      <li>Causal inference</li>
+      <li>MLOps</li>
+    </ul>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="footer-inner">
+    <div>
+      <h3>Let's work together</h3>
+      <p>Open to data science roles and consulting.</p>
+    </div>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/your-handle" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+  <p class="copy">&copy; <span id="year">2026</span> Alex Morgan. Built with plain HTML &amp; CSS.</p>
+</footer>
+
+<script>
+  (function () {
+    var burger = document.getElementById('burger');
+    var menu = document.getElementById('menu');
+    var item = document.getElementById('projects');
+    var btn = document.getElementById('projects-btn');
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function setProjects(open) {
+      item.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setProjects(!item.classList.contains('open'));
+    });
+
+    burger.addEventListener('click', function () {
+      var open = !menu.classList.contains('open');
+      menu.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (!open) setProjects(false);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!item.contains(e.target)) setProjects(false);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        setProjects(false);
+        menu.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close mobile menu after choosing an in-page link
+    menu.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        menu.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Highlight Home / About while scrolling
+    var links = {
+      home: menu.querySelector('a[href="#home"]'),
+      about: menu.querySelector('a[href="#about"]')
+    };
+    var sections = [document.getElementById('home'), document.getElementById('about')];
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            Object.keys(links).forEach(function (k) { links[k].classList.remove('active'); });
+            links[en.target.id].classList.add('active');
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      sections.forEach(function (s) { io.observe(s); });
+    }
+  })();
+</script>
+</body>
+</html>
